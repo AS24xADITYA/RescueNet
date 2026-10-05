@@ -18,7 +18,7 @@ class GraphStore:
         # Load all nodes
         nodes = db.query(Node).all()
         for n in nodes:
-            self.graph.add_node(n.id, type=n.type, lat=n.lat, lng=n.lng)
+            self.graph.add_node(n.id, name=n.name or n.id, type=n.type, lat=n.lat, lng=n.lng)
             
         # Load all roads
         roads = db.query(Road).all()

@@ -1,6 +1,7 @@
-fastapi
-uvicorn
-sqlalchemy
-psycopg2-binary
-pydantic
-networkx
+fastapi==0.141.1
+uvicorn==0.52.0
+sqlalchemy==2.0.51
+psycopg2-binary==2.9.12
+pydantic==2.13.4
+networkx==3.6.1
+python-dotenv>=1.0.0

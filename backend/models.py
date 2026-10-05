@@ -32,10 +32,15 @@ class NodeTypeEnum(str, enum.Enum):
 class Node(Base):
     __tablename__ = "nodes"
     id = Column(String, primary_key=True, index=True)
+    name = Column(String, nullable=True)
     type = Column(Enum(NodeTypeEnum), nullable=False)
     lat = Column(Float, nullable=False)
     lng = Column(Float, nullable=False)
     degree = Column(Integer, default=0)
+
+    # Relationships
+    shelters = relationship("Shelter", back_populates="location_node")
+    victims = relationship("Victim", back_populates="location_node")
 
 class Road(Base):
     __tablename__ = "roads"
@@ -47,6 +52,10 @@ class Road(Base):
     status = Column(Enum(NodeStatusEnum), default=NodeStatusEnum.OPEN)
     bidirectional = Column(Boolean, default=True)
 
+    # Relationships
+    from_node = relationship("Node", foreign_keys=[from_node_id])
+    to_node = relationship("Node", foreign_keys=[to_node_id])
+
 class Shelter(Base):
     __tablename__ = "shelters"
     id = Column(String, primary_key=True, index=True)
@@ -55,6 +64,10 @@ class Shelter(Base):
     capacity_occupied = Column(Integer, default=0)
     status = Column(Enum(ShelterStatusEnum), default=ShelterStatusEnum.AVAILABLE)
 
+    # Relationships
+    location_node = relationship("Node", back_populates="shelters")
+    victims = relationship("Victim", back_populates="assigned_shelter")
+
 class Victim(Base):
     __tablename__ = "victims"
     id = Column(String, primary_key=True, index=True)
@@ -62,7 +75,11 @@ class Victim(Base):
     location_node_id = Column(String, ForeignKey("nodes.id"), nullable=False)
     severity = Column(Enum(SeverityEnum), nullable=False)
     assigned_shelter_id = Column(String, ForeignKey("shelters.id"), nullable=True)
-    registered_at = Column(DateTime, default=datetime.datetime.utcnow)
+    registered_at = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
+
+    # Relationships
+    location_node = relationship("Node", back_populates="victims")
+    assigned_shelter = relationship("Shelter", back_populates="victims")
 
 # --- Pydantic Schemas ---
 
@@ -73,16 +90,47 @@ class VictimCreate(BaseModel):
     severity: SeverityEnum
 
 class VictimResponse(VictimCreate):
-    assigned_shelter_id: Optional[str]
+    assigned_shelter_id: Optional[str] = None
     registered_at: datetime.datetime
     class Config:
         from_attributes = True
 
 class NodeCreate(BaseModel):
     id: str
+    name: Optional[str] = None
     type: NodeTypeEnum
     lat: float
     lng: float
+
+class NodeResponse(BaseModel):
+    id: str
+    name: Optional[str] = None
+    type: NodeTypeEnum
+    lat: float
+    lng: float
+    degree: int
+    class Config:
+        from_attributes = True
+
+class RoadResponse(BaseModel):
+    id: str
+    from_node_id: str
+    to_node_id: str
+    weight: float
+    capacity: int
+    status: NodeStatusEnum
+    bidirectional: bool
+    class Config:
+        from_attributes = True
+
+class ShelterResponse(BaseModel):
+    id: str
+    location_node_id: str
+    capacity_total: int
+    capacity_occupied: int
+    status: ShelterStatusEnum
+    class Config:
+        from_attributes = True
 
 class RoadCreate(BaseModel):
     id: str
@@ -96,3 +144,18 @@ class ShelterCreate(BaseModel):
     id: str
     location_node_id: str
     capacity_total: int
+
+class RouteRequest(BaseModel):
+    source: str
+    target: str
+
+class MaxFlowRequest(BaseModel):
+    source: str
+    sink: str
+
+class HuffmanRequest(BaseModel):
+    message: str
+
+class CRTRequest(BaseModel):
+    # list of [remainder, modulo]
+    shifts: List[List[int]]

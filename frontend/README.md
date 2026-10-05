@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RescueNet Frontend 🛰️
 
-## Getting Started
+The command-center client for the **RescueNet Discrete Mathematics Evacuation & Logistics Engine**. Built with **Next.js 16 (App Router)**, **React 19**, **Tailwind CSS v4**, and **Leaflet / React-Leaflet**.
 
-First, run the development server:
+## Features
+
+- **Interactive Geospatial Network Map**: Live rendering of nodes (rescue bases, shelters, hospitals, disaster zones, cities) and road edges with bidirectional toggle support.
+- **Dijkstra Shortest Path Visualizer**: Instant interactive shortest-route calculation between any network nodes.
+- **Max-Flow / Min-Cut Visualizer**: Configurable Ford-Fulkerson evacuation flow analysis with real-time bottleneck highlights.
+- **Priority Triage Heap**: WebSocket-synchronized emergency queue sorted in $O(\log n)$ priority order by medical triage severity (`CRITICAL`, `SERIOUS`, `STABLE`).
+- **Propositional Logic & Live Activity Stream**: Real-time evaluation of propositional logic rules ($\neg P \land \neg Q \to \neg A$) and Pigeonhole capacity deficits.
+- **Discrete Math Applied Labs**:
+  - **Huffman Coding**: Frequency-based prefix-free compression with bit-savings calculator.
+  - **Chinese Remainder Theorem**: Modular congruence solver for multi-team patrol rendezvous synchronization.
+  - **Minimum Spanning Tree (MST)**: Kruskal's algorithm backbone computation for critical infrastructure connectivity.
+
+## Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run the development server (runs on port 3000)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Type check
+npx tsc --noEmit
+
+# Lint
+npm run lint
+
+# Production build
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Requires the RescueNet FastAPI backend running on `http://localhost:8000`.
