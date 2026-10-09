@@ -17,13 +17,13 @@ interface VictimModalProps {
 export default function VictimModal({ isOpen, onClose, onSuccess }: VictimModalProps) {
   const [name, setName] = useState('');
   const [severity, setSeverity] = useState<'CRITICAL' | 'SERIOUS' | 'STABLE'>('CRITICAL');
-  const [location, setLocation] = useState('N6');
+  const [location, setLocation] = useState('M5');
   const [availableNodes, setAvailableNodes] = useState<NodeItem[]>([
-    { id: 'N6', name: 'Kasara Ghat Landslide Hazard' },
-    { id: 'N7', name: 'Nashik Godavari Flood Zone' },
-    { id: 'N9', name: 'Mahad Savitri Flash Flood Zone' },
-    { id: 'N5', name: 'Kalyan Central Transit Junction' },
-    { id: 'N1', name: 'Mumbai BKC Command HQ' },
+    { id: 'M5', name: 'Mithi River Flood Basin (Kurla)' },
+    { id: 'M3', name: 'Hindmata Flood Hazard Zone (Dadar)' },
+    { id: 'G2', name: 'Bhor Ghat Landslide Hazard Pass' },
+    { id: 'P7', name: 'Sinhagad Road Mutha Flood Sector' },
+    { id: 'M4', name: 'SDRF Maharashtra Command Hub (BKC)' },
   ]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -113,7 +113,7 @@ export default function VictimModal({ isOpen, onClose, onSuccess }: VictimModalP
             </label>
             <input 
               required
-              placeholder="e.g. Kasara Ghat Rescue Squad Alpha"
+              placeholder="e.g. Mithi River Rapid Rescue Squad Alpha"
               className="w-full bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-2 text-white placeholder-slate-500 text-sm outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
               value={name} 
               onChange={(e) => setName(e.target.value)} 

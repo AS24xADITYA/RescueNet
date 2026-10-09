@@ -77,3 +77,7 @@ Desktop.ini
 .idea/
 *.swp
 *.swo
+
+# Guides & AI Instructions (Untracked)
+PROJECT_GUIDE.md
+AI-Instructions/

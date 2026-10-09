@@ -78,17 +78,17 @@ interface RouteResult {
 }
 
 export default function RescueMap() {
-  // Center of Mumbai - Pune - Nashik - Konkan Disaster Management Belt
-  const defaultCenter: [number, number] = [19.18, 73.35]; 
+  // Geographic Center of Mumbai - Pune Metropolitan corridor
+  const defaultCenter: [number, number] = [18.84, 73.35]; 
   const [tileTheme, setTileTheme] = useState<'dark' | 'osm'>('dark');
   const [nodes, setNodes] = useState<NodeData[]>([]);
   const [roads, setRoads] = useState<RoadData[]>([]);
   const [maxFlowData, setMaxFlowData] = useState<any>(null);
   const [routeData, setRouteData] = useState<RouteResult | null>(null);
-  const [routeSource, setRouteSource] = useState('N1');
-  const [routeTarget, setRouteTarget] = useState('N12');
-  const [flowSource, setFlowSource] = useState('N1');
-  const [flowSink, setFlowSink] = useState('N8');
+  const [routeSource, setRouteSource] = useState('M4');
+  const [routeTarget, setRouteTarget] = useState('P4');
+  const [flowSource, setFlowSource] = useState('M4');
+  const [flowSink, setFlowSink] = useState('P1');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -111,7 +111,7 @@ export default function RescueMap() {
 
       if (nodesData.length > 0) {
         if (!nodesData.some((n: any) => n.id === routeSource)) setRouteSource(nodesData[0].id);
-        if (!nodesData.some((n: any) => n.id === routeTarget)) setRouteTarget(nodesData[Math.min(nodesData.length - 1, 11)].id);
+        if (!nodesData.some((n: any) => n.id === routeTarget)) setRouteTarget(nodesData[nodesData.length - 1].id);
       }
     } catch (e) {
       setError('Could not connect to backend. Is the server running on port 8000?');
@@ -389,7 +389,7 @@ export default function RescueMap() {
 
       <MapContainer 
         center={defaultCenter} 
-        zoom={8} 
+        zoom={9} 
         scrollWheelZoom={true} 
         className="w-full h-full z-0"
         style={{ height: '100%', width: '100%', minHeight: '600px' }}
